@@ -61,6 +61,27 @@ export default Component.extend({
     this._setContent();
   },
 
+  onChange: null,
+
+  _subscribeToOnChange(editor) {
+    let onChangeHandler = get(this, 'onChange');
+    if (typeof onChangeHandler === 'function') {
+      let handler = () => {
+        let newValue = editor.getContent();
+        let isUpdated = get(this, '_prevValue') !== newValue;
+        // let skipNextOnChangeTrigger = get(this, `_skipNextOnChangeTrigger`);
+        if (isUpdated && !skipNextOnChangeTrigger) {
+          set(this, '_prevValue', newValue);
+          this.incrementProperty('changeIndex');
+          onChangeHandler(newValue);
+        }
+        // set(this, `_skipNextOnChangeTrigger`, false);
+      };
+
+      editor.subscribe('editableInput', handler);
+    }
+  },
+
   /**
    * We need teardown editor if wrapper component is destroying;
    */
@@ -113,6 +134,8 @@ export default Component.extend({
   _createInstance(options) {
     let el = this.element.getElementsByClassName('ember-medium-editor__container')[0];
     let instance = new MediumEditor(el, options);
+    this._subscribeToEvents(instance);
+
     return set(this, '_instance', instance);
   },
 
