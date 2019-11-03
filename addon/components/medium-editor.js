@@ -135,7 +135,6 @@ export default Component.extend({
   _createInstance(options) {
     let el = this.element.getElementsByClassName('ember-medium-editor__container')[0];
     let instance = new MediumEditor(el, options);
-    this._subscribeToEvents(instance);
 
     return set(this, '_instance', instance);
   },
