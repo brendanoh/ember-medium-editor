@@ -114,7 +114,7 @@ export default Component.extend({
     let instance = this._createInstance(options);
     // Attach all passed events
     this._attachEvents(instance);
-    this,_subscribeToOnChange(instance)
+    this._subscribeToOnChange(instance)
     // Set content with preserving current cursor position
     this._setContent();
   },
