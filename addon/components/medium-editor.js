@@ -70,7 +70,7 @@ export default Component.extend({
         let newValue = editor.getContent();
         let isUpdated = get(this, '_prevValue') !== newValue;
         // let skipNextOnChangeTrigger = get(this, `_skipNextOnChangeTrigger`);
-        if (isUpdated && !skipNextOnChangeTrigger) {
+        if (isUpdated) {
           set(this, '_prevValue', newValue);
           this.incrementProperty('changeIndex');
           onChangeHandler(newValue);
